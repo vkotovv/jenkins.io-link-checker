@@ -3,12 +3,13 @@ import urllib2
 import re
 import urlparse
 
+import click
+
 root_page = "https://jenkins.io"
     
-def parse_blog():
+def parse_blog(num_pages):
     parse_blog_page_one()
-    LAST_PAGE = 63
-    for i in range(2, LAST_PAGE + 1):
+    for i in range(2, num_pages + 1):
         parse_blog_page(i)
 
 def parse_solutions():
@@ -57,7 +58,16 @@ def print_links(url, search_term):
     for link in links:
         print link
 
+@click.command()
+@click.option('--blog_pages', default=3, help='Number of blog pages to check')
+@click.option('--blog_only', is_flag=True, help='Check only blog pages')
+def start_parsing(blog_pages, blog_only):
+    """Gets the list of links from Jenkins.io website"""
+    if not blog_only:
+        parse_solutions()
+        parse_docs()
+
+    parse_blog(blog_pages)
+
 if __name__ == "__main__":
-    parse_solutions()
-    parse_blog()
-    parse_docs()
+    start_parsing()
