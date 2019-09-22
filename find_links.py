@@ -34,7 +34,7 @@ def parse_docs():
     
     unique_links = list(set(result))
     for link in unique_links:
-        print link
+        print link.encode('utf-8')
 
 def get_links(url, search_term):
     ''' Find all links that contain specific search_term in URL '''
@@ -56,7 +56,7 @@ def get_links(url, search_term):
 def print_links(url, search_term):
     links = get_links(url, search_term)
     for link in links:
-        print link
+        print link.encode('utf-8')
 
 @click.command()
 @click.option('--blog_pages', default=3, help='Number of blog pages to check')
